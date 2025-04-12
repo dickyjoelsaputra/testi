@@ -14,8 +14,10 @@ services:
       - DJANGO_SETTINGS_MODULE=core.settings.production  # Ganti dengan modul settings Anda
       - SECRET_KEY=your-ass-key-here  # Ganti dengan secret key kuat!
       - DEBUG=0  # Matikan debug di produksi
-      - ALLOWED_HOSTS=eveza.id  # Sesuaikan domain
+      - ALLOWED_HOSTS=eveza.id,localhost,127.0.0.1,nginx-proxy  # Sesuaikan domain
       
+      - CSRF_TRUSTED_ORIGINS=https://eveza.id
+
       # Database (SQLite)
       - DATABASE_URL=sqlite:///db/db.sqlite3  # Path ke SQLite di container
       
