@@ -27,6 +27,13 @@ services:
       - PORT=8000
       - PYTHONUNBUFFERED=1
 
+    networks:
+      - shared_network  # Gunakan network yang sama dengan NPM
+
+networks:
+  shared_network:
+    external: true
+
 volumes:
   sqlite_data:  # Volume untuk SQLite
   static_volume:  # Volume untuk static files
