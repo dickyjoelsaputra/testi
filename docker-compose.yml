@@ -4,12 +4,14 @@ services:
     build: .
     container_name: wagtail
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
     volumes:
       - ./sqlite_data:/app/db  # Simpan data SQLite secara persisten
       - ./static_volume:/app/static  # Volume untuk static files
     environment:
       # Django Settings
-      - DJANGO_SETTINGS_MODULE=core.settings/production  # Ganti dengan modul settings Anda
+      - DJANGO_SETTINGS_MODULE=core.settings.production  # Ganti dengan modul settings Anda
       - SECRET_KEY=your-ass-key-here  # Ganti dengan secret key kuat!
       - DEBUG=0  # Matikan debug di produksi
       - ALLOWED_HOSTS=eveza.id  # Sesuaikan domain
