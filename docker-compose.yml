@@ -28,7 +28,7 @@ services:
       - PYTHONUNBUFFERED=1
 
     networks:
-      - shared_network  # Gunakan network yang sama dengan NPM
+      - shared_network
 
 networks:
   shared_network:
