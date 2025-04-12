@@ -1,0 +1,30 @@
+services:
+  # Aplikasi Wagtail (Django)
+  wagtail:
+    build: .
+    container_name: wagtail
+    restart: unless-stopped
+    volumes:
+      - ./sqlite_data:/app/db  # Simpan data SQLite secara persisten
+      - ./static_volume:/app/static  # Volume untuk static files
+    environment:
+      # Django Settings
+      - DJANGO_SETTINGS_MODULE=core.settings/production  # Ganti dengan modul settings Anda
+      - SECRET_KEY=your-ass-key-here  # Ganti dengan secret key kuat!
+      - DEBUG=0  # Matikan debug di produksi
+      - ALLOWED_HOSTS=eveza.id  # Sesuaikan domain
+      
+      # Database (SQLite)
+      - DATABASE_URL=sqlite:///db/db.sqlite3  # Path ke SQLite di container
+      
+      # Static/Media Files
+      - STATIC_ROOT=/app/static
+      - MEDIA_ROOT=/app/media  # Opsional, jika menggunakan upload file
+      
+      # Gunicorn
+      - PORT=8000
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  sqlite_data:  # Volume untuk SQLite
+  static_volume:  # Volume untuk static files
