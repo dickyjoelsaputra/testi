@@ -1,6 +1,7 @@
 services:
   # Aplikasi Wagtail (Django)
   wagtail:
+    user: "1001:1001"
     build: 
       context: .
       dockerfile: Dockerfile
@@ -12,13 +13,6 @@ services:
     volumes:
       - ./media:/app/media:rw
       - ./static:/app/static:rw
-    # environment:
-      # Django Settings
-      # - DJANGO_SETTINGS_MODULE=core.settings.dev
-      # - SECRET_KEY=django-insecure-t+8*b$jp(-^4&mvixpc82wi4k!*7!oo3_q+3nrxk5ab9it+515
-      # - DEBUG=1
-      # - DATABASE_URL=sqlite:///db/db.sqlite3
-
     networks:
       - shared_network
 
