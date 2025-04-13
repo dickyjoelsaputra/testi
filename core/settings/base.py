@@ -174,7 +174,7 @@ STORAGES = {
         "BACKEND": "core.custom_storages.MediaStorage",
     },
     "staticfiles": {
-        "BACKEND": "core.custom_storages.StaticStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
