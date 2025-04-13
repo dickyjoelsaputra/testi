@@ -5,7 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "127.0.0.1:8000:8000"
+      # - "127.0.0.1:8000:8000"
+      - "8000:8000"
     container_name: wagtail
     restart: unless-stopped
     volumes:
@@ -16,20 +17,8 @@ services:
       - DJANGO_SETTINGS_MODULE=core.settings.dev  # Ganti dengan modul settings Anda
       - SECRET_KEY=your-ass-key-here  # Ganti dengan secret key kuat!
       - DEBUG=1  # Matikan debug di produksi
-      # - ALLOWED_HOSTS=eveza.id,localhost,127.0.0.1,nginx-proxy,wagtail
-      # - ALLOWED_HOSTS=*
       - CSRF_TRUSTED_ORIGINS=https://eveza.id,http://wagtail:8000  # Tambahkan URL internal
-
-      # Database (SQLite)
       - DATABASE_URL=sqlite:///db/db.sqlite3  # Path ke SQLite di container
-      
-      # Static/Media Files
-      # - STATIC_ROOT=/app/static
-      # - MEDIA_ROOT=/app/media  # Opsional, jika menggunakan upload file
-      
-      # Gunicorn
-      # - PORT=8000
-      # - PYTHONUNBUFFERED=1
 
     networks:
       - shared_network
