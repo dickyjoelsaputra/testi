@@ -24,17 +24,24 @@ class MediaStorage(S3Boto3Storage):
         """
         Override _save to properly handle file uploads
         """
+        from django.core.files.base import ContentFile
+        
         if hasattr(content, 'temporary_file_path'):
             # Handle temporary uploaded files
             with open(content.temporary_file_path(), 'rb') as f:
                 return super()._save(name, f)
-        else:
-            # Handle in-memory uploaded files
-            if hasattr(content, 'seekable') and content.seekable():
-                content.seek(0)
-            if hasattr(content, 'read'):
-                content = content.read()
+        
+        # Handle in-memory uploaded files
+        if hasattr(content, 'seekable') and content.seekable():
+            content.seek(0)
+        
+        if hasattr(content, 'read'):
+            if not hasattr(content, 'seek'):
+                # Convert bytes to file-like object
+                content = ContentFile(content.read())
             return super()._save(name, content)
+        
+        return super()._save(name, content)
 
     def get_available_name(self, name, max_length=None):
         """
