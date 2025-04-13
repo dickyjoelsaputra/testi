@@ -1,4 +1,27 @@
 from storages.backends.s3boto3 import S3Boto3Storage
+from django.core.files.base import File
+import tempfile
+
+class KeepOpenFile(File):
+    """File wrapper that keeps the underlying file open"""
+    def __init__(self, file, name=None):
+        super().__init__(file, name)
+        self._file = file
+        self._is_opened = True
+
+    def open(self, mode=None):
+        if not self._is_opened:
+            self._file.open(mode or self.mode)
+            self._is_opened = True
+        return self
+
+    def close(self):
+        if self._is_opened:
+            self._file.close()
+            self._is_opened = False
+
+    def __del__(self):
+        self.close()
 
 class StaticStorage(S3Boto3Storage):
     location = 'static'
