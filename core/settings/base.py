@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 """
 Django settings for core project.
 
@@ -28,6 +31,7 @@ INSTALLED_APPS = [
     "storages",
     "home",
     "search",
+    "blog",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -89,11 +93,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {        
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'NAME': os.environ.get('DB_NAME', 'eveza_db'),
+        'USER': os.environ.get('DB_USER' , 'dikjul'),
+        'PASSWORD': os.environ.get('DB_PASSWORD' , '3225501'),
+        'HOST': os.environ.get('DB_HOST' , '103.150.92.204'),
+        'PORT': os.environ.get('DB_PORT' , '5432'),
         'CONN_MAX_AGE': 600,  # Tambahkan parameter connection
         'OPTIONS': {
             'connect_timeout': 5,  # Timeout 5 detik
@@ -138,7 +142,7 @@ AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'Mc0s9YnLN6uJZgJoj014')
 AWS_SECRET_ACCESS_KEY = os.environ.get('MINIO_SECRET_KEY', 'Xc253mVXdve9wtOexlwRnULJI9Mgr9QSSKlHmpTH')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'eveza-bucket')
 AWS_S3_ENDPOINT_URL = os.environ.get('MINIO_ENDPOINT', 'https://minio-api.eveza.id')
-AWS_S3_CUSTOM_DOMAIN = os.environ['MINIO_CUSTOM_DOMAIN']  # Required - no default
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('MINIO_CUSTOM_DOMAIN', 'minio-api.eveza.id')
 AWS_S3_USE_SSL = True
 AWS_S3_SECURE_URLS = True
 AWS_QUERYSTRING_AUTH = False

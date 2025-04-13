@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Blog Category Example</h1>
+<ul>
+    {% for blog_category in blog_categories %}
+    <li>
+        <h2><a href="{{ blog_category.slug }}">{{ blog_category.title }}</a></h2>
+        <p>{{ blog_category.created_at }} - {{ blog_category.title }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
