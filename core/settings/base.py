@@ -60,6 +60,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://claverio.com",
+]
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
