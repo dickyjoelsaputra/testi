@@ -85,13 +85,17 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "default": {        
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
+        'CONN_MAX_AGE': 600,  # Tambahkan parameter connection
+        'OPTIONS': {
+            'connect_timeout': 5,  # Timeout 5 detik
+        }
     }
 }
 
