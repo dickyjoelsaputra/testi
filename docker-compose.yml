@@ -1,24 +1,46 @@
 services:
-  # Aplikasi Wagtail (Django)
   wagtail:
     build: 
       context: .
       dockerfile: Dockerfile
       args:
-        - UID=1001  # HARUS SAMA DENGAN USER DI BAWAH
+        - UID=1001
         - GID=1001
     user: "1001:1001"
     ports:
-      # - "127.0.0.1:8000:8000"
       - "8000:8000"
-    container_name: wagtail
-    restart: unless-stopped
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgres  # Menggunakan service name
+      - DB_PORT=5432
+    depends_on:
+      - postgres
     volumes:
-      - ./media:/app/media:rw
-      - ./static:/app/static:rw
-      - ./db.sqlite3:/app/db.sqlite3:rw
+      - ./media:/app/media
+      - ./static:/app/static
     networks:
       - shared_network
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shared_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
 
 networks:
   shared_network:
