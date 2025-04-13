@@ -20,6 +20,14 @@ class MediaStorage(S3Boto3Storage):
     default_acl = 'public-read'
     file_overwrite = False
 
+    def _save(self, name, content):
+        """
+        Override _save to ensure file stays open during upload
+        """
+        if hasattr(content, 'seekable') and content.seekable():
+            content.seek(0)
+        return super()._save(name, content)
+
     def url(self, name, parameters=None, expire=None):
         url = super().url(name, parameters, expire)
         # Ensure we're using the correct domain and bucket path
