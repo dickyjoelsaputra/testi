@@ -11,7 +11,7 @@ services:
     environment:
       - MINIO_ROOT_USER=dicky
       - MINIO_ROOT_PASSWORD=Jul@3225501
-      - MINIO_SERVER_URL=https://minio.eveza.id
+      - MINIO_SERVER_URL=https://minio-api.eveza.id
       - MINIO_BROWSER_REDIRECT_URL=https://minio.eveza.id
     volumes:
       - ${HOME}/minio/data:/data
