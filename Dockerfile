@@ -33,6 +33,10 @@ COPY --chown=wagtail:wagtail . .
 
 USER wagtail
 
-RUN python manage.py collectstatic --noinput
+# Try collectstatic during build but continue if it fails
+RUN python manage.py collectstatic --noinput || echo "Collectstatic failed, will retry during runtime"
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn core.wsgi:application
+CMD set -xe; \
+    python manage.py migrate --noinput; \
+    python manage.py collectstatic --noinput; \
+    gunicorn core.wsgi:application

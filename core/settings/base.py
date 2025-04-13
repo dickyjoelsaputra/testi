@@ -25,9 +25,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 INSTALLED_APPS = [
     # Minio
-    "storages"
-    # 
-    
+    "storages",
     "home",
     "search",
     "wagtail.contrib.forms",
