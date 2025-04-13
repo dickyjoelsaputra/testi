@@ -30,7 +30,8 @@ WORKDIR /app
 # Set permission untuk media, static, dan file database
 RUN mkdir -p /app/media /app/static && \
     touch /app/db.sqlite3 && \
-    chown -R wagtail:wagtail /app/media /app/static /app/db.sqlite3
+    chown -R wagtail:wagtail /app/media /app/static /app/db.sqlite3 && \
+    chmod 664 /app/db.sqlite3  # Tambahkan izin baca/tulis
 
 COPY --chown=wagtail:wagtail . .
 
