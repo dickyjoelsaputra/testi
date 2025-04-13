@@ -13,8 +13,7 @@ services:
       - MINIO_ROOT_PASSWORD=Jul@3225501
       - MINIO_SERVER_URL=https://minio-api.eveza.id
       - MINIO_BROWSER_REDIRECT_URL=https://minio.eveza.id
-      - MINIO_API_SECRET_KEY=disable  # Nonaktifkan SSE
-      - MINIO_KMS_SECRET_KEY=disable  # Nonaktifkan KMS
+      - MINIO_API_SECRET_KEY=rahasia1234567890123456789012345
     volumes:
       - ${HOME}/minio/data:/data
       # - ${HOME}/minio/certs:/root/.minio/certs  # Untuk SSL certificates
