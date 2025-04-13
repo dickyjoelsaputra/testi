@@ -15,6 +15,7 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
     
     
+    path("", include('home.urls')),
     path("blog/", include('blog.urls')),
 ]
 
