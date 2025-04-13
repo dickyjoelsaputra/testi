@@ -15,12 +15,14 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+      - MINIO_BUCKET_NAME=${MINIO_BUCKET_NAME}
+      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
+      - MINIO_CUSTOM_DOMAIN=${MINIO_CUSTOM_DOMAIN}
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./media:/app/media:z 
-      - ./static:/app/static:z
     networks:
       - shared_network
 

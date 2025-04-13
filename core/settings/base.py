@@ -24,6 +24,10 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+    # Minio
+    "storages"
+    # 
+    
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -131,6 +135,17 @@ USE_I18N = True
 USE_TZ = True
 
 
+# MinIO Configuration
+AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'UZMkLEELj3uc5y3vDFbC')
+AWS_SECRET_ACCESS_KEY = os.environ.get('MINIO_SECRET_KEY', 'Gzmn3S2qjUkujowQT7Yx6TR8nM4YiQofI00uVMcn')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'eveza')
+AWS_S3_ENDPOINT_URL = os.environ.get('MINIO_ENDPOINT', 'https://minio-api.eveza.id')
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('MINIO_CUSTOM_DOMAIN', 'minio.eveza.id')
+AWS_S3_USE_SSL = True
+AWS_S3_SECURE_URLS = True
+AWS_QUERYSTRING_AUTH = False
+AWS_DEFAULT_ACL = None
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -153,14 +168,10 @@ MEDIA_URL = "/media/"
 # See https://docs.djangoproject.com/en/5.1/ref/settings/#std-setting-STORAGES
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "core.custom_storages.MediaStorage",
     },
-    # ManifestStaticFilesStorage is recommended in production, to prevent
-    # outdated JavaScript / CSS assets being served from cache
-    # (e.g. after a Wagtail upgrade).
-    # See https://docs.djangoproject.com/en/5.1/ref/contrib/staticfiles/#manifeststaticfilesstorage
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        "BACKEND": "core.custom_storages.StaticStorage",
     },
 }
 

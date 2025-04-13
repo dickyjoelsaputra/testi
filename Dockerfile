@@ -25,16 +25,14 @@ RUN pip install -r /requirements.txt
 
 WORKDIR /app
 
-RUN mkdir -p /app/media /app/static && \
-    chown -R wagtail:wagtail /app && \
+RUN chown -R wagtail:wagtail /app && \
     find /app -type d -exec chmod 755 {} \; && \
-    find /app -type f -exec chmod 644 {} \; && \
-    chmod -R 775 /app/media  # Khusus folder media
+    find /app -type f -exec chmod 644 {} \;
 
 COPY --chown=wagtail:wagtail . .
 
 USER wagtail
 
-RUN python manage.py collectstatic --noinput --clear
+RUN python manage.py collectstatic --noinput
 
 CMD set -xe; python manage.py migrate --noinput; gunicorn core.wsgi:application
