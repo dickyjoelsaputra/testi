@@ -2,6 +2,7 @@ from .base import *
 
 
 print("!!! USING DEV SETTINGS !!!")
+print(f"DB_HOST from env: {os.getenv('DB_HOST')}")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -25,6 +26,18 @@ CSRF_TRUSTED_ORIGINS = os.getenv(
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# Override static settings for local development
+# STATIC_URL = '/static/'
+# MEDIA_URL = '/media/'
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 try:
     from .local import *
