@@ -134,9 +134,9 @@ USE_TZ = True
 
 
 # MinIO Configuration
-AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'UZMkLEELj3uc5y3vDFbC')
-AWS_SECRET_ACCESS_KEY = os.environ.get('MINIO_SECRET_KEY', 'Gzmn3S2qjUkujowQT7Yx6TR8nM4YiQofI00uVMcn')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'eveza')
+AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'Mc0s9YnLN6uJZgJoj014')
+AWS_SECRET_ACCESS_KEY = os.environ.get('MINIO_SECRET_KEY', 'Xc253mVXdve9wtOexlwRnULJI9Mgr9QSSKlHmpTH')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'eveza-bucket')
 AWS_S3_ENDPOINT_URL = os.environ.get('MINIO_ENDPOINT', 'https://minio-api.eveza.id')
 AWS_S3_CUSTOM_DOMAIN = os.environ.get('MINIO_CUSTOM_DOMAIN', 'minio.eveza.id')
 AWS_S3_USE_SSL = True
