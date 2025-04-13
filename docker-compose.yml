@@ -14,11 +14,10 @@ services:
       - ./static:/app/static:rw
     environment:
       # Django Settings
-      - DJANGO_SETTINGS_MODULE=core.settings.dev  # Ganti dengan modul settings Anda
-      - SECRET_KEY=your-ass-key-here  # Ganti dengan secret key kuat!
-      - DEBUG=1  # Matikan debug di produksi
-      - CSRF_TRUSTED_ORIGINS=https://eveza.id,http://wagtail:8000  # Tambahkan URL internal
-      - DATABASE_URL=sqlite:///db/db.sqlite3  # Path ke SQLite di container
+      - DJANGO_SETTINGS_MODULE=core.settings.dev
+      - SECRET_KEY=django-insecure-t+8*b$jp(-^4&mvixpc82wi4k!*7!oo3_q+3nrxk5ab9it+515
+      - DEBUG=1
+      - DATABASE_URL=sqlite:///db/db.sqlite3
 
     networks:
       - shared_network

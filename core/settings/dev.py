@@ -1,10 +1,13 @@
 from .base import *
 
+
+print("!!! USING DEV SETTINGS !!!")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-t+8*b$jp(-^4&mvixpc82wi4k!*7!oo3_q+3nrxk5ab9it+515"
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key-if-env-not-set")
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = [
@@ -15,10 +18,10 @@ ALLOWED_HOSTS = [
 ]
 
 # CSRF Trusted Origins (wajib untuk HTTPS dan proxy)
-CSRF_TRUSTED_ORIGINS = [
-    'https://eveza.id',
-    'http://wagtail:8000'  # Untuk akses internal Docker
-]
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    "CSRF_TRUSTED_ORIGINS",
+    "https://eveza.id,http://wagtail:8000"
+).split(",")
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
