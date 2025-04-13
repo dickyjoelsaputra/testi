@@ -1,32 +1,35 @@
 services:
   # Aplikasi Wagtail (Django)
   wagtail:
-    build: .
-    container_name: wagtail
-    restart: unless-stopped
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "127.0.0.1:8000:8000"
+    container_name: wagtail
+    restart: unless-stopped
     volumes:
-      - ./sqlite_data:/app/db  # Simpan data SQLite secara persisten
-      - ./static_volume:/app/static  # Volume untuk static files
+      - ./media:/app/media:rw
+      - ./static:/app/static:rw
     environment:
       # Django Settings
-      - DJANGO_SETTINGS_MODULE=core.settings.production  # Ganti dengan modul settings Anda
+      - DJANGO_SETTINGS_MODULE=core.settings.dev  # Ganti dengan modul settings Anda
       - SECRET_KEY=your-ass-key-here  # Ganti dengan secret key kuat!
-      - DEBUG=0  # Matikan debug di produksi
-      - ALLOWED_HOSTS=eveza.id,localhost,127.0.0.1,nginx-proxy,wagtail  # Tambahkan 'wagtail'
+      - DEBUG=1  # Matikan debug di produksi
+      # - ALLOWED_HOSTS=eveza.id,localhost,127.0.0.1,nginx-proxy,wagtail
+      # - ALLOWED_HOSTS=*
       - CSRF_TRUSTED_ORIGINS=https://eveza.id,http://wagtail:8000  # Tambahkan URL internal
 
       # Database (SQLite)
       - DATABASE_URL=sqlite:///db/db.sqlite3  # Path ke SQLite di container
       
       # Static/Media Files
-      - STATIC_ROOT=/app/static
-      - MEDIA_ROOT=/app/media  # Opsional, jika menggunakan upload file
+      # - STATIC_ROOT=/app/static
+      # - MEDIA_ROOT=/app/media  # Opsional, jika menggunakan upload file
       
       # Gunicorn
-      - PORT=8000
-      - PYTHONUNBUFFERED=1
+      # - PORT=8000
+      # - PYTHONUNBUFFERED=1
 
     networks:
       - shared_network
@@ -34,7 +37,3 @@ services:
 networks:
   shared_network:
     external: true
-
-volumes:
-  sqlite_data:  # Volume untuk SQLite
-  static_volume:  # Volume untuk static files
