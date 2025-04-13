@@ -45,16 +45,17 @@ class MediaStorage(S3Boto3Storage):
 
     def _save(self, name, content):
         """
-        Override _save to properly handle file uploads
+        Override _save to properly handle file uploads for Wagtail
         """
         from django.core.files.base import ContentFile
         
         if hasattr(content, 'temporary_file_path'):
-            # Handle temporary uploaded files
+            # For temporary files, create a KeepOpenFile wrapper
             with open(content.temporary_file_path(), 'rb') as f:
-                return super()._save(name, f)
+                wrapped_content = KeepOpenFile(f)
+                return super()._save(name, wrapped_content)
         
-        # Handle in-memory uploaded files
+        # Handle in-memory files
         if hasattr(content, 'seekable') and content.seekable():
             content.seek(0)
         
@@ -62,7 +63,13 @@ class MediaStorage(S3Boto3Storage):
             if not hasattr(content, 'seek'):
                 # Convert bytes to file-like object
                 content = ContentFile(content.read())
-            return super()._save(name, content)
+            
+            # Create temp file and wrap it
+            with tempfile.NamedTemporaryFile() as temp_file:
+                temp_file.write(content.read())
+                temp_file.flush()
+                wrapped_content = KeepOpenFile(open(temp_file.name, 'rb'))
+                return super()._save(name, wrapped_content)
         
         return super()._save(name, content)
 
