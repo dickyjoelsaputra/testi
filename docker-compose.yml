@@ -16,7 +16,8 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - ./media:/app/media
       - ./static:/app/static
@@ -29,7 +30,6 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_HOST_AUTH_METHOD: trust
     restart: 
       always
     ports:
