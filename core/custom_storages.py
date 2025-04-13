@@ -6,10 +6,13 @@ class StaticStorage(S3Boto3Storage):
 
     def url(self, name, parameters=None, expire=None):
         url = super().url(name, parameters, expire)
-        # Replace the domain-only URL with bucket-included URL
+        # Ensure we're using the correct domain and bucket path
+        custom_domain = self.connection.meta.client.meta.endpoint_url
+        if not custom_domain.startswith('https://'):
+            custom_domain = f'https://{custom_domain}'
         return url.replace(
-            f"{self.connection.meta.client.meta.endpoint_url}/",
-            f"{self.connection.meta.client.meta.endpoint_url}/{self.bucket_name}/"
+            f"{custom_domain}/",
+            f"{custom_domain}/{self.bucket_name}/"
         )
 
 class MediaStorage(S3Boto3Storage):
