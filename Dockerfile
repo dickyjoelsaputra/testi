@@ -25,10 +25,11 @@ RUN pip install -r /requirements.txt
 
 WORKDIR /app
 
-# Perbaikan kritis: Set izin sebelum COPY
 RUN mkdir -p /app/media /app/static && \
     chown -R wagtail:wagtail /app && \
-    chmod -R 755 /app
+    find /app -type d -exec chmod 755 {} \; && \
+    find /app -type f -exec chmod 644 {} \; && \
+    chmod -R 775 /app/media  # Khusus folder media
 
 COPY --chown=wagtail:wagtail . .
 

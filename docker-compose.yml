@@ -19,8 +19,8 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - ./media:/app/media
-      - ./static:/app/static
+      - ./media:/app/media:z 
+      - ./static:/app/static:z
     networks:
       - shared_network
 
