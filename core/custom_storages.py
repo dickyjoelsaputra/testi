@@ -22,11 +22,27 @@ class MediaStorage(S3Boto3Storage):
 
     def _save(self, name, content):
         """
-        Override _save to ensure file stays open during upload
+        Override _save to properly handle file uploads
         """
-        if hasattr(content, 'seekable') and content.seekable():
-            content.seek(0)
-        return super()._save(name, content)
+        if hasattr(content, 'temporary_file_path'):
+            # Handle temporary uploaded files
+            with open(content.temporary_file_path(), 'rb') as f:
+                return super()._save(name, f)
+        else:
+            # Handle in-memory uploaded files
+            if hasattr(content, 'seekable') and content.seekable():
+                content.seek(0)
+            if hasattr(content, 'read'):
+                content = content.read()
+            return super()._save(name, content)
+
+    def get_available_name(self, name, max_length=None):
+        """
+        Get a unique filename if file_overwrite is False
+        """
+        if self.file_overwrite:
+            return name
+        return super().get_available_name(name, max_length)
 
     def url(self, name, parameters=None, expire=None):
         url = super().url(name, parameters, expire)
