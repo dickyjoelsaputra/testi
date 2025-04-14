@@ -164,7 +164,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-# Use MinIO URL for media files
 MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/media/"
 
 # Default storage settings, with the staticfiles storage updated.
@@ -174,7 +173,7 @@ STORAGES = {
         "BACKEND": "core.custom_storages.MediaStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "core.custom_storages.StaticStorage",
     },
 }
 

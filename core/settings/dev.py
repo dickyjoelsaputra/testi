@@ -27,17 +27,17 @@ CSRF_TRUSTED_ORIGINS = os.getenv(
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Override static settings for local development
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+# STATIC_URL = '/static/'
+# MEDIA_URL = '/media/'
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "django.core.files.storage.FileSystemStorage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#     },
+# }
 
 try:
     from .local import *
