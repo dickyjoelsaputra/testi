@@ -1,6 +1,5 @@
 from storages.backends.s3boto3 import S3Boto3Storage
 from django.core.files.base import File
-import tempfile
 
 class KeepOpenFile(File):
     """File wrapper that keeps the underlying file open"""
@@ -29,7 +28,6 @@ class StaticStorage(S3Boto3Storage):
 
     def url(self, name, parameters=None, expire=None):
         url = super().url(name, parameters, expire)
-        # Ensure we're using the correct domain and bucket path
         custom_domain = self.connection.meta.client.meta.endpoint_url
         if not custom_domain.startswith('https://'):
             custom_domain = f'https://{custom_domain}'
@@ -45,45 +43,31 @@ class MediaStorage(S3Boto3Storage):
 
     def _save(self, name, content):
         """
-        Override _save to properly handle file uploads for Wagtail
+        Simplified _save method that avoids temporary files
         """
         from django.core.files.base import ContentFile
         
         if hasattr(content, 'temporary_file_path'):
-            # For temporary files, create a KeepOpenFile wrapper
+            # Handle temporary files directly
             with open(content.temporary_file_path(), 'rb') as f:
-                wrapped_content = KeepOpenFile(f)
-                return super()._save(name, wrapped_content)
+                return super()._save(name, f)
         
-        # Handle in-memory files
-        if hasattr(content, 'seekable') and content.seekable():
+        # Handle in-memory content
+        if hasattr(content, 'seek'):
             content.seek(0)
         
-        if hasattr(content, 'read'):
-            if not hasattr(content, 'seek'):
-                # Convert bytes to file-like object
-                content = ContentFile(content.read())
-            
-            # Create temp file and wrap it
-            with tempfile.NamedTemporaryFile() as temp_file:
-                temp_file.write(content.read())
-                temp_file.flush()
-                wrapped_content = KeepOpenFile(open(temp_file.name, 'rb'))
-                return super()._save(name, wrapped_content)
+        if not hasattr(content, 'read'):
+            content = ContentFile(content)
         
         return super()._save(name, content)
 
     def get_available_name(self, name, max_length=None):
-        """
-        Get a unique filename if file_overwrite is False
-        """
         if self.file_overwrite:
             return name
         return super().get_available_name(name, max_length)
 
     def url(self, name, parameters=None, expire=None):
         url = super().url(name, parameters, expire)
-        # Ensure we're using the correct domain and bucket path
         custom_domain = self.connection.meta.client.meta.endpoint_url
         if not custom_domain.startswith('https://'):
             custom_domain = f'https://{custom_domain}'

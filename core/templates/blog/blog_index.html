@@ -7,165 +7,81 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="blog-item-list">
-                        <div class="blog-item large-blog">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-1.jpg" alt="">
+                        {% for blog in page_obj %}
+                            <div class="blog-item">
+                                <div class="bi-pic">
+                                    <img src="{{ blog.image_processed.url }}" alt="{{ blog.title }}">
+                                </div>
+                                <div class="bi-text">
+                                    <h4>
+                                        <a href="{% url 'blog:blog_detail' slug=blog.slug %}">{{ blog.title }}</a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            by <span>{{ blog.author }}</span>
+                                        </li>
+                                        <li>{{ blog.created_at|date:"M d, Y" }}</li>
+                                    </ul>
+                                    <p>{{ blog.content|truncatewords:30 }}</p>
+                                    <a href="{% url 'blog:blog_detail' slug=blog.slug %}" class="read-more">Read more <span class="arrow_right"></span></a>
+                                </div>
                             </div>
-                            <div class="bi-text">
-                                <h4>
-                                    <a href="./blog-details.html">what3words: The app changing real estate and construction forever</a>
-                                </h4>
-                                <ul>
-                                    <li>
-                                        by <span>Jonathan Doe</span>
-                                    </li>
-                                    <li>Seb 24, 2019</li>
-                                    <li>12 Comment</li>
-                                </ul>
-                                <p>
-                                    Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book sentially unchanged...
-                                </p>
-                                <a href="#" class="read-more">Read more <span class="arrow_right"></span></a>
-                            </div>
-                        </div>
-                        <div class="blog-item">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-2.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <h5>
-                                    <a href="./blog-details.html">what3words: The app changing real estate and construction forever</a>
-                                </h5>
-                                <ul>
-                                    <li>
-                                        by <span>Jonathan Doe</span>
-                                    </li>
-                                    <li>Seb 24, 2019</li>
-                                    <li>12 Comment</li>
-                                </ul>
-                                <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown...</p>
-                                <a href="#" class="read-more">Read more <span class="arrow_right"></span></a>
-                            </div>
-                        </div>
-                        <div class="blog-item">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-3.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <h5>
-                                    <a href="./blog-details.html">what3words: The app changing real estate and construction forever</a>
-                                </h5>
-                                <ul>
-                                    <li>
-                                        by <span>Jonathan Doe</span>
-                                    </li>
-                                    <li>Seb 24, 2019</li>
-                                    <li>12 Comment</li>
-                                </ul>
-                                <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown...</p>
-                                <a href="#" class="read-more">Read more <span class="arrow_right"></span></a>
-                            </div>
-                        </div>
-                        <div class="blog-item">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-4.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <h5>
-                                    <a href="./blog-details.html">what3words: The app changing real estate and construction forever</a>
-                                </h5>
-                                <ul>
-                                    <li>
-                                        by <span>Jonathan Doe</span>
-                                    </li>
-                                    <li>Seb 24, 2019</li>
-                                    <li>12 Comment</li>
-                                </ul>
-                                <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown...</p>
-                                <a href="#" class="read-more">Read more <span class="arrow_right"></span></a>
-                            </div>
-                        </div>
-                        <div class="blog-item">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-5.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <h5>
-                                    <a href="./blog-details.html">what3words: The app changing real estate and construction forever</a>
-                                </h5>
-                                <ul>
-                                    <li>
-                                        by <span>Jonathan Doe</span>
-                                    </li>
-                                    <li>Seb 24, 2019</li>
-                                    <li>12 Comment</li>
-                                </ul>
-                                <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown...</p>
-                                <a href="#" class="read-more">Read more <span class="arrow_right"></span></a>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="blog-pagination property-pagination ">
+                    {% comment %} <div class="blog-pagination property-pagination">
                         <a href="#">1</a>
                         <a href="#">2</a>
                         <a href="#">3</a>
                         <a href="#" class="icon"><span class="arrow_right"></span></a>
+                        <a href="#" class="icon"><span class="arrow_left"></span></a>
+                    </div> {% endcomment %}
+                    <div class="blog-pagination property-pagination">
+                        {% if page_obj.has_previous %}
+                            <a href="{% if current_category %}{% url 'blog:blog_index' current_category %}{% else %}{% url 'blog:blog_index' %}{% endif %}?page={{ page_obj.previous_page_number }}"
+                               class="icon">
+                                <span class="arrow_left"></span>
+                            </a>
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <a href="{% if current_category %}{% url 'blog:blog_index' current_category %}{% else %}{% url 'blog:blog_index' %}{% endif %}?page={{ num }}"
+                                   class="active">{{ num }}</a>
+                            {% else %}
+                                <a href="{% if current_category %}{% url 'blog:blog_index' current_category %}{% else %}{% url 'blog:blog_index' %}{% endif %}?page={{ num }}">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a href="{% if current_category %}{% url 'blog:blog_index' current_category %}{% else %}{% url 'blog:blog_index' %}{% endif %}?page={{ page_obj.next_page_number }}"
+                               class="icon">
+                                <span class="arrow_right"></span>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="blog-sidebar">
-                        <div class="follow-us">
+                        <div class="feature-post">
                             <div class="section-title sidebar-title-b">
-                                <h6>Follow us</h6>
+                                <h6>Blog Kategori</h6>
                             </div>
-                            <div class="fu-links">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="youtube"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                            </div>
+                            <ul class="list-group list-group-flush">
+                                <b>
+                                    <li class="list-group-item">Cras justo odio</li>
+                                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                                    <li class="list-group-item">Morbi leo risus</li>
+                                    <li class="list-group-item">Porta ac consectetur ac</li>
+                                    <li class="list-group-item">Vestibulum at eros</li>
+                                </b>
+                            </ul>
                         </div>
                         <div class="feature-post">
                             <div class="section-title sidebar-title-b">
-                                <h6>Feature posts</h6>
+                                <h6>Blog Pilihan</h6>
                             </div>
                             <div class="recent-post">
                                 <div class="rp-item">
                                     <div class="rp-pic">
-                                        <img src="img/blog/rp-1.jpg" alt="">
-                                    </div>
-                                    <div class="rp-text">
-                                        <h6>
-                                            <a href="#">Vancouver real estate advisurges conference goers...</a>
-                                        </h6>
-                                        <span>Seb 24, 2019</span>
-                                    </div>
-                                </div>
-                                <div class="rp-item">
-                                    <div class="rp-pic">
-                                        <img src="img/blog/rp-2.jpg" alt="">
-                                    </div>
-                                    <div class="rp-text">
-                                        <h6>
-                                            <a href="#">Vancouver real estate advisurges conference goers...</a>
-                                        </h6>
-                                        <span>Seb 24, 2019</span>
-                                    </div>
-                                </div>
-                                <div class="rp-item">
-                                    <div class="rp-pic">
-                                        <img src="img/blog/rp-3.jpg" alt="">
-                                    </div>
-                                    <div class="rp-text">
-                                        <h6>
-                                            <a href="#">Vancouver real estate advisurges conference goers...</a>
-                                        </h6>
-                                        <span>Seb 24, 2019</span>
-                                    </div>
-                                </div>
-                                <div class="rp-item">
-                                    <div class="rp-pic">
-                                        <img src="img/blog/rp-4.jpg" alt="">
+                                        <img src="{% static 'img/blog/rp-1.jpg' %}" alt="">
                                     </div>
                                     <div class="rp-text">
                                         <h6>
@@ -175,16 +91,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="subscribe-form">
-                            <div class="section-title sidebar-title-b">
-                                <h6>Subscribe</h6>
-                            </div>
-                            <p>Consectetur adipiscing elit, sed do eiusmod ut labore.</p>
-                            <form action="#">
-                                <input type="text" placeholder="Email">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from core.wagtail_hooks import *
 
 # Register your models here.
 
@@ -10,12 +11,22 @@ from .models import (
     Blog
 )
 
+from wagtail.images.models import Image
+
 class BlogAdmin(SnippetViewSet):
     model = Blog
     menu_label = "Blog"
     icon = "tag"
     menu_order = 20
-    list_display = ("title",)
+    list_display = [
+        "title",
+        "author",
+        CategoriesColumn("categories", label="Categories"),
+        "is_feature",
+        "is_active",
+        ImageColumn("image", label="Image"),
+    ]
+    list_filter = ("is_feature", "is_active", "categories")
 
 class BlogCategoryAdmin(SnippetViewSet):
     model = BlogCategory

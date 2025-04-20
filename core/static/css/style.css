@@ -962,7 +962,7 @@ ol {
 .property-pagination a:last-child {
   margin-right: 0;
 }
-.property-pagination a:hover {
+.property-pagination a.active {
   background: #00C89E;
   color: #ffffff;
 }

@@ -35,11 +35,13 @@ class Blog(index.Indexed , models.Model):
     slug = AutoSlugField(populate_from="title", blank=True, null=True)
     author = models.CharField(max_length=30, blank=False , null=False , default="")
     categories = models.ManyToManyField(BlogCategory, blank=True)
-    image = models.ImageField(upload_to='media/blog/image', blank=False, null=False)
+    is_feature = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     
+    image = models.ImageField(upload_to='media/blog/image', blank=False, null=False)
     image_processed = ImageSpecField(
         source="image",
-        processors=[ResizeToFill(640)],
+        processors=[ResizeToFill(330 , 220)],
         format="webP",
         options={"quality": 90},
     )
@@ -92,6 +94,10 @@ class Blog(index.Indexed , models.Model):
     
     search_fields = [
         index.SearchField("title"),
+        index.SearchField("author"),
+        index.SearchField("categories"),
+        index.SearchField("content"),
+        index.SearchField("is_feature"),
     ]
 
     panels = [
@@ -99,6 +105,8 @@ class Blog(index.Indexed , models.Model):
         FieldPanel("author"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         FieldPanel("image"),
+        FieldPanel("is_feature"),
+        FieldPanel("is_active"),
         FieldPanel("content"),
         FieldPanel("meta_key"),
         FieldPanel("meta_desc"),

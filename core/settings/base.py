@@ -146,12 +146,14 @@ AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'Mc0s9YnLN6uJZgJoj014')
 AWS_SECRET_ACCESS_KEY = os.environ.get('MINIO_SECRET_KEY', 'Xc253mVXdve9wtOexlwRnULJI9Mgr9QSSKlHmpTH')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'eveza-bucket')
 AWS_S3_ENDPOINT_URL = os.environ.get('MINIO_ENDPOINT', 'https://minio-api.eveza.id')
-AWS_S3_CUSTOM_DOMAIN = os.environ.get('MINIO_CUSTOM_DOMAIN', 'minio-api.eveza.id')
+# AWS_S3_CUSTOM_DOMAIN = os.environ.get('MINIO_CUSTOM_DOMAIN', 'minio-api.eveza.id')
+AWS_S3_ADDRESSING_STYLE = "path"
 AWS_S3_USE_SSL = True
 AWS_S3_SECURE_URLS = True
 AWS_QUERYSTRING_AUTH = False
 AWS_DEFAULT_ACL = None
 AWS_IS_GZIPPED = True
+AWS_S3_FILE_OVERWRITE=False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -165,21 +167,33 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
 
+
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/static/"
+# STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/static/"
+STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/"
+MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/media/"
+# MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/media/"
 
 # Default storage settings, with the staticfiles storage updated.
 # See https://docs.djangoproject.com/en/5.1/ref/settings/#std-setting-STORAGES
 STORAGES = {
     "default": {
-        "BACKEND": "core.custom_storages.MediaStorage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "location": "media",
+            "default_acl": "public-read",
+            "file_overwrite": False
+        }
     },
     "staticfiles": {
-        "BACKEND": "core.custom_storages.StaticStorage",
-    },
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "location": "static",
+            "default_acl": "public-read"
+        }
+    }
 }
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex page models
