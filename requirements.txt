@@ -5,4 +5,4 @@ django_storages==1.14
 local==1.0.0
 python-dotenv==1.1.0
 wagtail==6.4.1
-django_extensions=4.1
+django_extensions==4.1
