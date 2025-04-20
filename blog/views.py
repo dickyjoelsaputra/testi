@@ -6,3 +6,6 @@ def blog_index(request):
     return render(request, 'blog/blog_index.html', {
         'blog_categories': blog_categories
     })
+
+def blog_detail(request):
+    return render(request, 'blog/blog_detail.html')

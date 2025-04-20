@@ -64,14 +64,14 @@
     <div class="hs-nav">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg">
                     <nav class="nav-menu">
                         <ul>
                             <li class="active">
-                                <a href="./index.html">Home</a>
+                                <a href="{% url 'home:home_index' %}">Beranda</a>
                             </li>
                             <li>
-                                <a href="#">Properties</a>
+                                <a href="#">Produk</a>
                                 <ul class="dropdown">
                                     <li>
                                         <a href="./property.html">Property Grid</a>
@@ -91,29 +91,20 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="./agents.html">Agents</a>
+                                <a href="./agents.html">Tentang</a>
                             </li>
                             <li>
-                                <a href="./about.html">About</a>
+                                <a href="./about.html">Kontak</a>
                             </li>
                             <li>
-                                <a href="./blog.html">Blog</a>
-                            </li>
-                            <li>
-                                <a href="./contact.html">Contact</a>
+                                <a href="{% url 'blog:blog_index' %}">Blog</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
-                    <div class="hn-social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-                </div>
+                {% comment %} <div class="col-lg-3">
+
+                </div> {% endcomment %}
             </div>
         </div>
     </div>

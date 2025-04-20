@@ -1,8 +1,8 @@
 from .base import *
 
 
-print("!!! USING DEV SETTINGS !!!")
-print(f"DB_HOST from env: {os.getenv('DB_HOST')}")
+# print("!!! USING DEV SETTINGS !!!")
+# print(f"DB_HOST from env: {os.getenv('DB_HOST')}")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

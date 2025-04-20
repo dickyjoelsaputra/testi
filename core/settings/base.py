@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    # debug mode
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +65,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -147,6 +151,7 @@ AWS_S3_USE_SSL = True
 AWS_S3_SECURE_URLS = True
 AWS_QUERYSTRING_AUTH = False
 AWS_DEFAULT_ACL = None
+AWS_IS_GZIPPED = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
