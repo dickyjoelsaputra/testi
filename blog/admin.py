@@ -24,7 +24,7 @@ class BlogAdmin(SnippetViewSet):
         CategoriesColumn("categories", label="Categories"),
         "is_feature",
         "is_active",
-        ImageColumn("image", label="Image"),
+        ImageColumn("image_330x220", label="Image"),
     ]
     list_filter = ("is_feature", "is_active", "categories")
 

@@ -15,6 +15,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
     
+    # path("select2/", include("django_select2.urls")),
     
     path("", include('home.urls')),
     path("blog/", include('blog.urls')),

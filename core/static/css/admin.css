@@ -1,0 +1,31 @@
+/* Hilangkan outline hijau kedip-kedip */
+.select2-selection--multiple:focus,
+.select2-search__field:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Styling kontainer */
+.select2-container--default .select2-selection--multiple {
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    padding: 6px;
+    font-size: 14px;
+    min-height: 42px;
+}
+
+/* Styling label/tag yang dipilih */
+.select2-selection__choice {
+    background-color: #7678e0 !important;
+    color: white !important;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+/* Hover remove tag */
+.select2-selection__choice__remove:hover {
+    background-color: #7678e0 !important;
+    color: white;
+}

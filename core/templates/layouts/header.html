@@ -17,7 +17,7 @@
                 <i class="icon_mail_alt"></i> Aler.support@gmail.com
             </li>
             <li>
-                <i class="fa fa-mobile-phone"></i> 125-711-811 <span>125-668-886</span>
+                <i class="fa fa-mobile-phone"></i> 125-711-811
             </li>
         </ul>
         <a href="#" class="hw-btn">Submit property</a>
@@ -49,7 +49,7 @@
                                 <i class="icon_mail_alt"></i> Aler.support@gmail.com
                             </li>
                             <li>
-                                <i class="fa fa-mobile-phone"></i> 125-711-811 <span>125-668-886</span>
+                                <i class="fa fa-mobile-phone"></i> 125-711-811
                             </li>
                         </ul>
                         <a href="#" class="hw-btn">Submit property</a>
@@ -108,21 +108,7 @@
         </div>
     </div>
 </header>
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section spad set-bg"
-         data-setbg="img/breadcrumb-bg.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb-text">
-                    <h4>About us</h4>
-                    <div class="bt-option">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>About</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Breadcrumb Section End -->
+
+{% if request.resolver_match and request.resolver_match.url_name != 'home_index' and request.resolver_match.url_name != 'blog_detail' %}
+    {% include 'components/breadcump.html' %}
+{% endif %}

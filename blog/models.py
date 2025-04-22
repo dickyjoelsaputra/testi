@@ -1,5 +1,7 @@
 from django.db import models
 from django import forms
+from modelcluster.fields import ParentalManyToManyField
+from django_select2 import forms as s2forms
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.search import index
@@ -38,51 +40,37 @@ class Blog(index.Indexed , models.Model):
     is_feature = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     
-    image = models.ImageField(upload_to='media/blog/image', blank=False, null=False)
-    image_processed = ImageSpecField(
-        source="image",
+    image_330x220 = models.ImageField(upload_to='media/blog/image', blank=False, null=False, default="")
+    image_330x220_processed = ImageSpecField(
+        source="image_330x220",
         processors=[ResizeToFill(330 , 220)],
         format="webP",
         options={"quality": 90},
     )
-
-    content = StreamField(
-        [
-            (
-                "paragraph",
-                blocks.RichTextBlock(features=["p", "a"]),
-            ),
-            (
-                "h4",
-                blocks.CharBlock(features=["h4"]),
-            ),
-            (
-                "h6",
-                blocks.CharBlock(features=["h6"]),
-            ),
-            (
-                "ordered_list",
-                blocks.RichTextBlock(
-                    features=["ol"],
-                ),
-            ),
-            (
-                "unordered_list",
-                blocks.RichTextBlock(
-                    features=["ul"],
-                ),
-            ),
-            ("blockquote_1", blocks.CharBlock()),
-            (
-                "image",
-                ImageChooserBlock(label="Image", help_text="800 x 600"),
-            ),
-        ],
-        use_json_field=True,
-        null=True,
-        blank=True,
+    image_240x160_processed = ImageSpecField(
+        source="image_330x220",
+        processors=[ResizeToFill(240 , 160)],
+        format="webP",
+        options={"quality": 90},
     )
-    
+    image_105x80_processed = ImageSpecField(
+        source="image_330x220",
+        processors=[ResizeToFill(105 , 80)],
+        format="webP",
+        options={"quality": 90},
+    )
+
+
+    image_1920x640 = models.ImageField(upload_to='media/blog/image', blank=False, null=False , default="")
+    image_1920x640_processed = ImageSpecField(
+        source="image_1920x640",
+        processors=[ResizeToFill(1920 , 640)],
+        format="webP",
+        options={"quality": 90},
+    )
+
+    content = RichTextField(blank=True, null=True)
+    small_content = models.TextField(max_length=200, blank=True)
     # seo
     meta_key = models.TextField(max_length=250, blank=True, null=True) #ok
     meta_desc = models.TextField(max_length=250, blank=True, null=True) #ok
@@ -97,26 +85,24 @@ class Blog(index.Indexed , models.Model):
         index.SearchField("author"),
         index.SearchField("categories"),
         index.SearchField("content"),
+        index.SearchField("small_content"),
         index.SearchField("is_feature"),
     ]
 
     panels = [
         FieldPanel("title"),
         FieldPanel("author"),
-        FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
-        FieldPanel("image"),
+        FieldPanel("categories",widget=s2forms.Select2MultipleWidget(attrs={
+            "style": "width: 100%; min-height: 40px;"
+        })),
+        FieldPanel("image_330x220"),
+        FieldPanel("image_1920x640"),
         FieldPanel("is_feature"),
         FieldPanel("is_active"),
         FieldPanel("content"),
+        FieldPanel("small_content"),
         FieldPanel("meta_key"),
         FieldPanel("meta_desc"),
-    ]
-    
-    search_fields = [
-        index.SearchField("title"),
-        index.SearchField("author"),
-        index.SearchField("categories"),
-        index.SearchField("content"),
     ]
     
     def __str__(self):

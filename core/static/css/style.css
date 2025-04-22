@@ -963,8 +963,8 @@ ol {
   margin-right: 0;
 }
 .property-pagination.blog-pagination a.active {
-  background: #00C89E;
-  color: #ffffff;
+  background: #00C89E !important; 
+  color: #ffffff !important;
 }
 .property-pagination a.icon span {
   position: relative;
@@ -1415,7 +1415,7 @@ ol {
 }
 
 .contact-info {
-  padding-top: 100px;
+  padding-top: 50px;
 }
 .contact-info .ci-item {
   overflow: hidden;

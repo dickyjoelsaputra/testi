@@ -29,9 +29,11 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     # Minio
     "storages",
+    # main
     "home",
     "search",
     "blog",
+    "global_setting",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -54,6 +56,11 @@ INSTALLED_APPS = [
     
     # debug mode
     'django_extensions',
+    
+    # settings
+    "wagtail.contrib.settings",
+    "django_select2",
+    
 ]
 
 MIDDLEWARE = [
@@ -83,6 +90,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "wagtail.contrib.settings.context_processors.settings",
             ],
         },
     },
@@ -140,13 +148,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+ENVIRONMENT = os.environ.get("DJANGO_ENV", default="development")
 
 # MinIO Configuration
 AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'Mc0s9YnLN6uJZgJoj014')
 AWS_SECRET_ACCESS_KEY = os.environ.get('MINIO_SECRET_KEY', 'Xc253mVXdve9wtOexlwRnULJI9Mgr9QSSKlHmpTH')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'eveza-bucket')
 AWS_S3_ENDPOINT_URL = os.environ.get('MINIO_ENDPOINT', 'https://minio-api.eveza.id')
-# AWS_S3_CUSTOM_DOMAIN = os.environ.get('MINIO_CUSTOM_DOMAIN', 'minio-api.eveza.id')
 AWS_S3_ADDRESSING_STYLE = "path"
 AWS_S3_USE_SSL = True
 AWS_S3_SECURE_URLS = True
@@ -155,46 +163,97 @@ AWS_DEFAULT_ACL = None
 AWS_IS_GZIPPED = True
 AWS_S3_FILE_OVERWRITE=False
 
+
+if ENVIRONMENT == "development":
+    # Static lokal
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "core", "static"),
+    ]
+    STATIC_ROOT = os.path.join(BASE_DIR, "core", "staticfiles")
+
+    # Media tetap MinIO
+    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "location": "media",
+                "default_acl": "public-read",
+                "file_overwrite": False
+            }
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        }
+    }
+    
+    DEBUG = True
+else:
+    # Static dan media semua ke MinIO
+    STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/"
+    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "location": "media",
+                "default_acl": "public-read",
+                "file_overwrite": False
+            }
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "location": "static",
+                "default_acl": "public-read"
+            }
+        }
+    }
+    
+    DEBUG = False
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
+# STATICFILES_FINDERS = [
+#     "django.contrib.staticfiles.finders.FileSystemFinder",
+#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+# ]
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(PROJECT_DIR, "static"),
+# ]
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/static/"
-STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/"
-MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-# MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/media/"
-
-# Default storage settings, with the staticfiles storage updated.
-# See https://docs.djangoproject.com/en/5.1/ref/settings/#std-setting-STORAGES
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "location": "media",
-            "default_acl": "public-read",
-            "file_overwrite": False
-        }
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "location": "static",
-            "default_acl": "public-read"
-        }
-    }
-}
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/"
+# MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# # Default storage settings, with the staticfiles storage updated.
+# # See https://docs.djangoproject.com/en/5.1/ref/settings/#std-setting-STORAGES
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#         "OPTIONS": {
+#             "location": "media",
+#             "default_acl": "public-read",
+#             "file_overwrite": False
+#         }
+#     },
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#         "OPTIONS": {
+#             "location": "static",
+#             "default_acl": "public-read"
+#         }
+#     }
+# }
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex page models
 # can exceed this limit within Wagtail's page editor.
@@ -222,3 +281,23 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    },
+    "select2": {
+        # "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        # "LOCATION": "127.0.0.1:11211",
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "select2"
+# SELECT2_JS = ['django_select2/django_select2.js']
+# SELECT2_CSS = ['django_select2/django_select2.css']
