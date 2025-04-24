@@ -165,6 +165,9 @@ AWS_DEFAULT_ACL = None
 AWS_IS_GZIPPED = True
 AWS_S3_FILE_OVERWRITE=False
 
+
+ENVIRONMENT = os.getenv("DJANGO_ENV")
+
 if ENVIRONMENT == "development":
     # Static lokal
     STATIC_URL = "/static/"
