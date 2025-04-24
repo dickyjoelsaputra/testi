@@ -22,6 +22,10 @@ urlpatterns = [
     path("contact_us/", include('contact_us.urls')),
     path("about_us/" , include('about_us.urls')),
     path("product/", include('product.urls')),
+    
+    # chapta
+    path('captcha/', include('captcha.urls')),
+
 ]
 
 

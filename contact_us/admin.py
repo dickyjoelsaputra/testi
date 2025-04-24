@@ -15,9 +15,9 @@ class ContactUsAdmin(SnippetViewSet):
     menu_label = "Contact Us"
     menu_icon = "mail"
     icon = "tag"
-    list_display = ('name', 'email', 'phone', 'message')
-    search_fields = ('name', 'email', 'phone', 'message')
-    list_filter = ('name', 'email', 'phone', 'message')
+    list_display = ('name', 'email', 'phone', 'message', 'ip_address', 'location')
+    search_fields = ('name', 'email', 'phone', 'message', 'ip_address', 'location')
+    list_filter = ('name', 'email', 'phone', 'message', 'ip_address', 'location')
     list_per_page = 20
     add_to_admin_menu = True
     

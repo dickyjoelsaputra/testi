@@ -18,19 +18,29 @@ class ContactUs(index.Indexed, models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     message = models.TextField()
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(null=True, blank=True)
+    location = models.CharField(max_length=100, null=True, blank=True)
+    last_submit = models.DateTimeField(auto_now_add=True)
     
     search_fields = [
         index.SearchField("name"),
         index.SearchField("email"),
         index.SearchField("phone"),
         index.SearchField("message"),
+        index.SearchField("ip_address"),
+        index.SearchField("location"),
     ]
 
     panels = [
-        FieldPanel("name" , read_only=True),
-        FieldPanel("email",read_only=True),
-        FieldPanel("phone",read_only=True),
-        FieldPanel("message",read_only=True),
+        FieldPanel("name", read_only=True),
+        FieldPanel("email", read_only=True),
+        FieldPanel("phone", read_only=True),
+        FieldPanel("message", read_only=True),
+        FieldPanel("ip_address", read_only=True),
+        FieldPanel("user_agent", read_only=True),
+        FieldPanel("location", read_only=True),
+        FieldPanel("last_submit", read_only=True),
     ]
 
     def __str__(self):
