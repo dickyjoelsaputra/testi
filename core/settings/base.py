@@ -159,6 +159,9 @@ USE_I18N = True
 USE_TZ = True
 
 ENVIRONMENT = os.environ.get("DJANGO_ENV", default="development")
+print(f"Current ENVIRONMENT: {ENVIRONMENT}")
+print(f"DJANGO_ENV from os.environ: {os.environ.get('DJANGO_ENV')}")
+print(f"All environment variables: {dict(os.environ)}")
 
 # MinIO Configuration
 AWS_ACCESS_KEY_ID = os.environ.get('MINIO_ACCESS_KEY', 'Mc0s9YnLN6uJZgJoj014')
@@ -173,6 +176,7 @@ AWS_DEFAULT_ACL = None
 AWS_IS_GZIPPED = True
 AWS_S3_FILE_OVERWRITE=False
 
+print(f"ENVIRONMENT: {ENVIRONMENT}")
 
 if ENVIRONMENT == "development":
     # Static lokal
