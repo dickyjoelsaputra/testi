@@ -19,6 +19,9 @@ urlpatterns = [
     
     path("", include('home.urls')),
     path("blog/", include('blog.urls')),
+    path("contact_us/", include('contact_us.urls')),
+    path("about_us/" , include('about_us.urls')),
+    path("product/", include('product.urls')),
 ]
 
 

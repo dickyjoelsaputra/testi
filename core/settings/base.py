@@ -30,6 +30,9 @@ INSTALLED_APPS = [
     # Minio
     "storages",
     # main
+    "product",
+    "about_us",
+    "contact_us",
     "home",
     "search",
     "blog",
@@ -60,7 +63,6 @@ INSTALLED_APPS = [
     # settings
     "wagtail.contrib.settings",
     "django_select2",
-    
 ]
 
 MIDDLEWARE = [
@@ -91,6 +93,13 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
+                
+                
+                'global_setting.context_processors.social_context',
+                'global_setting.context_processors.global_seo_context',
+                'global_setting.context_processors.breadcrump_context',
+                
+                'product.context_processors.product_categories_context',
             ],
         },
     },
@@ -301,3 +310,12 @@ CACHES = {
 SELECT2_CACHE_BACKEND = "select2"
 # SELECT2_JS = ['django_select2/django_select2.js']
 # SELECT2_CSS = ['django_select2/django_select2.css']
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'your-email@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-password')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'your-email@gmail.com')

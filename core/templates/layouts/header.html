@@ -1,4 +1,7 @@
 {% load static %}
+
+{% with request.resolver_match.url_name as url_name %}
+
 <!-- Offcanvas Menu Wrapper Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
@@ -14,10 +17,10 @@
     <div class="om-widget">
         <ul>
             <li>
-                <i class="icon_mail_alt"></i> Aler.support@gmail.com
+                <i class="fa fa-envelope"></i>{{ social_context.email }}
             </li>
             <li>
-                <i class="fa fa-mobile-phone"></i> 125-711-811
+                <i class="fa fa-whatsapp"></i>{{ social_context.whatsapp }}
             </li>
         </ul>
         <a href="#" class="hw-btn">Submit property</a>
@@ -46,10 +49,10 @@
                     <div class="ht-widget">
                         <ul>
                             <li>
-                                <i class="icon_mail_alt"></i> Aler.support@gmail.com
+                                <i class="fa fa-envelope"></i>{{ social_context.email }}
                             </li>
                             <li>
-                                <i class="fa fa-mobile-phone"></i> 125-711-811
+                                <i class="fa fa-whatsapp"></i>{{ social_context.whatsapp }}
                             </li>
                         </ul>
                         <a href="#" class="hw-btn">Submit property</a>
@@ -67,36 +70,39 @@
                 <div class="col-lg">
                     <nav class="nav-menu">
                         <ul>
-                            <li class="active">
+                            <li class="{% if url_name == 'home_index' %}active{% endif %}">
                                 <a href="{% url 'home:home_index' %}">Beranda</a>
                             </li>
-                            <li>
-                                <a href="#">Produk</a>
+                            <li class="{% if url_name == 'product_index' or url_name == 'product_detail' %}active{% endif %}">
+                                <a href="{% url 'product:product_index' %}">Produk</a>
                                 <ul class="dropdown">
+                                    {% for product_category in product_categories %}
                                     <li>
-                                        <a href="./property.html">Property Grid</a>
+                                        {% comment %} <a href="{% url 'product:product_index' product_category.slug %}">{{ product_category.name }}</a> {% endcomment %}
+                                        <a href="{% url 'product:product_index'%}">{{ product_category.name }}</a>
                                     </li>
-                                    <li>
-                                        <a href="./profile.html">Property List</a>
+                                    {% endfor %}
+                                    {% comment %} <li>
+                                        <a href="{% url 'product:product_index' %}">Product List</a>
                                     </li>
-                                    <li>
-                                        <a href="./property-details.html">Property Detail</a>
-                                    </li>
+                                    <li> {% endcomment %}
+                                        {% comment %} <a href="{% url 'product:product_detail' %}">Product Detail</a> {% endcomment %}
+                                    {% comment %} </li>
                                     <li>
                                         <a href="./property-comparison.html">Property Comperison</a>
                                     </li>
                                     <li>
                                         <a href="./property-submit.html">Property Submit</a>
-                                    </li>
+                                    </li> {% endcomment %}
                                 </ul>
                             </li>
-                            <li>
-                                <a href="./agents.html">Tentang</a>
+                            <li class="{% if url_name == 'about_us_index' %}active{% endif %}">
+                                <a href="{% url 'about_us:about_us_index' %}">Tentang</a>
                             </li>
-                            <li>
-                                <a href="./about.html">Kontak</a>
+                            <li class="{% if url_name == 'contact_us_index' %}active{% endif %}">
+                                <a href="{% url 'contact_us:contact_us_index' %}">Kontak</a>
                             </li>
-                            <li>
+                            <li class="{% if url_name == 'blog_index' or url_name == 'blog_detail' or url_name == 'blog_by_category' %}active{% endif %}">
                                 <a href="{% url 'blog:blog_index' %}">Blog</a>
                             </li>
                         </ul>
@@ -108,6 +114,8 @@
         </div>
     </div>
 </header>
+
+{% endwith %}
 
 {% if request.resolver_match and request.resolver_match.url_name != 'home_index' and request.resolver_match.url_name != 'blog_detail' %}
     {% include 'components/breadcump.html' %}

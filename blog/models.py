@@ -40,7 +40,7 @@ class Blog(index.Indexed , models.Model):
     is_feature = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     
-    image_330x220 = models.ImageField(upload_to='media/blog/image', blank=False, null=False, default="")
+    image_330x220 = models.ImageField(upload_to='blog', blank=False, null=False, default="")
     image_330x220_processed = ImageSpecField(
         source="image_330x220",
         processors=[ResizeToFill(330 , 220)],
@@ -61,7 +61,7 @@ class Blog(index.Indexed , models.Model):
     )
 
 
-    image_1920x640 = models.ImageField(upload_to='media/blog/image', blank=False, null=False , default="")
+    image_1920x640 = models.ImageField(upload_to='blog', blank=False, null=False , default="")
     image_1920x640_processed = ImageSpecField(
         source="image_1920x640",
         processors=[ResizeToFill(1920 , 640)],

@@ -36,7 +36,7 @@ class BlogCategoryAdmin(SnippetViewSet):
     list_display = ("title",)
 
 
-class BlogSettingAdmin(SnippetViewSetGroup):
+class BlogSnippedAdmin(SnippetViewSetGroup):
     menu_icon = "tag"
     menu_label = "Blog"
     menu_order = 20
@@ -45,4 +45,4 @@ class BlogSettingAdmin(SnippetViewSetGroup):
         BlogCategoryAdmin,
     )
     
-register_snippet(BlogSettingAdmin)
+register_snippet(BlogSnippedAdmin)
