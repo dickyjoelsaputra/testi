@@ -20,7 +20,8 @@
                 <i class="fa fa-envelope"></i>{{ social_context.email }}
             </li>
             <li>
-                <i class="fa fa-whatsapp"></i>{{ social_context.whatsapp }}
+                <i class="fa fa-whatsapp"></i>
+                <a class="no-decoration" href="https://wa.me/{{ social_context.whatsapp }}" target="_blank">{{ social_context.whatsapp }}</a>
             </li>
         </ul>
         {% comment %} <a href="#" class="hw-btn">Submit property</a> {% endcomment %}
@@ -45,7 +46,8 @@
                                 <i class="fa fa-envelope"></i>{{ social_context.email }}
                             </li>
                             <li>
-                                <i class="fa fa-whatsapp"></i>{{ social_context.whatsapp }}
+                                <i class="fa fa-whatsapp"></i>
+                                <a class="no-decoration" href="https://wa.me/{{ social_context.whatsapp }}" target="_blank">{{ social_context.whatsapp }}</a>
                             </li>
                         </ul>
                         {% comment %} <a href="#" class="hw-btn">Submit property</a> {% endcomment %}
