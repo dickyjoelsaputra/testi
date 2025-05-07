@@ -1,7 +1,16 @@
 {% extends "layouts/main.html" %}
 {% load static %}
 {% load wagtailcore_tags %}
+{% load wagtailembeds_tags %}
+
+{% block title %}{{company_profile_context.company_alias}} | {{ blog.title }}{% endblock %}
+{% block meta_desc %}{{blog.meta_desc}}{% endblock %}
+{% block meta_key %}{{blog.meta_key}}{% endblock %}
+
+
 {% block content %}
+
+
     <!-- Blog Hero Section Begin -->
     <section class="blog-hero-section set-bg"
              data-setbg="{{ blog.image_1920x640_processed.url }}">

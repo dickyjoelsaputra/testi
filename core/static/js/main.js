@@ -18,16 +18,18 @@
         $(".loader").fadeOut();
         $("#preloder").delay(50).fadeOut("slow");
 
-        /*------------------
-            Property filter
-        --------------------*/
-        $('.property-controls li').on('click', function () {
-            $('.property-controls li').removeClass('active');
-            $(this).addClass('active');
-        });
-        if ($('.property-filter').length > 0) {
-            var containerEl = document.querySelector('.property-filter');
-            var mixer = mixitup(containerEl);
+    /*------------------
+        Property filter
+    --------------------*/
+    $('.property-controls li').on('click', function () {
+        $('.property-controls li').removeClass('active');
+        $(this).addClass('active');
+    });
+    if ($('.property-filter').length > 0) {
+        var containerEl = document.querySelector('.property-filter');
+        var mixer = mixitup(containerEl);
+
+        mixer.filter('.category-all');
         }
     });
 
@@ -69,7 +71,7 @@
         items: 1,
         dots: false,
         navText: ['<i class="arrow_left"></i>', '<i class="arrow_right"></i>'],
-        smartSpeed: 1200,
+        smartSpeed: 2000,
         autoHeight: false,
         autoplay: true
     });
@@ -149,14 +151,22 @@
     -------------------------*/
     $(".property-pic-slider").owlCarousel({
         loop: true,
-        margin: 0,
+        margin: 10,
         items: 1,
         dots: false,
         nav: true,
         navText: ['<i class="arrow_left"></i>', '<i class="arrow_right"></i>'],
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: true
+        autoplay: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            992: {
+                items: 2
+            }
+        }
     });
 
     /*------------------------

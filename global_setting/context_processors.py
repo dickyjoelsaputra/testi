@@ -16,4 +16,13 @@ def breadcrump_context(request):
         'breadcrump_context': BreadCrumb.objects.first()
     }
     
-# def 
+
+def footer_text_context(request):
+    return {
+        'footer_text_context': FooterText.objects.first()
+    }
+
+def company_profile_context(request):
+    return {
+        'company_profile_context': CompanyProfile.objects.first()
+    }

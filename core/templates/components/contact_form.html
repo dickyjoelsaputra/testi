@@ -1,0 +1,28 @@
+{% load static %}
+<div class="cf-content">
+  <div class="cc-title">
+    <h4>Formulir Kontak</h4>
+    <h5>
+      Kirimkan pesan untuk penawaran harga atau pertanyaan mengenai produk kami.
+      <br />
+      Anda dapat menggunakan formulir kontak di bawah ini atau mengirim email kepada kami di {{ social_context.email }}
+    </h5>
+  </div>
+  {% if messages %}
+    <div class="alert alert-{% if messages.tags %}{{ messages.tags }}{% else %}info{% endif %}">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="cc-form">
+    {% csrf_token %}
+    <div class="group-input">{{ form.name }}
+      {{ form.email }}
+      {{ form.phone }}</div>
+    {{ form.message }}
+    <div class="captcha-container">{{ form.captcha }}</div>
+    <button type="submit" class="site-btn">Kirim</button>
+  </form>
+</div>

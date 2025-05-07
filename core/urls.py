@@ -8,6 +8,13 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
 from blog import views as blog_views
+# from views import *
+from core.views import custom_404_view, custom_500_view
+from django.conf.urls import handler404, handler500
+# from global_setting import views as global_views
+
+handler404 = custom_404_view
+handler500 = custom_500_view
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),

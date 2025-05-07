@@ -8,11 +8,11 @@
     <div class="canvas-close">
         <span class="icon_close"></span>
     </div>
-    <div class="logo">
-        <a href="./index.html">
-            <img src="{% static 'img/logo.png' %}" alt="">
+    {% comment %} <div class="logo">
+        <a href="{% url 'home:home_index' %}">
+            <img src="{{ company_profile_context.company_logo_69x42_processed.url }}" alt="{{ company_profile_context.company_alias }}">
         </a>
-    </div>
+    </div> {% endcomment %}
     <div id="mobile-menu-wrap"></div>
     <div class="om-widget">
         <ul>
@@ -23,25 +23,18 @@
                 <i class="fa fa-whatsapp"></i>{{ social_context.whatsapp }}
             </li>
         </ul>
-        <a href="#" class="hw-btn">Submit property</a>
-    </div>
-    <div class="om-social">
-        <a href="#"><i class="fa fa-facebook"></i></a>
-        <a href="#"><i class="fa fa-twitter"></i></a>
-        <a href="#"><i class="fa fa-youtube-play"></i></a>
-        <a href="#"><i class="fa fa-instagram"></i></a>
-        <a href="#"><i class="fa fa-pinterest-p"></i></a>
+        {% comment %} <a href="#" class="hw-btn">Submit property</a> {% endcomment %}
     </div>
 </div>
 <!-- Offcanvas Menu Wrapper End -->
-<header class="header-section">
+<header class="header-section sticky-header">
     <div class="hs-top">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
                     <div class="logo">
-                        <a href="./index.html">
-                            <img src="{% static 'img/logo.png' %}" alt="" width="69" height="42">
+                        <a href="{% url 'home:home_index' %}">
+                            <img src="{{ company_profile_context.company_logo_69x42_processed.url }}" alt="" width="69" height="42">
                         </a>
                     </div>
                 </div>
@@ -55,11 +48,11 @@
                                 <i class="fa fa-whatsapp"></i>{{ social_context.whatsapp }}
                             </li>
                         </ul>
-                        <a href="#" class="hw-btn">Submit property</a>
+                        {% comment %} <a href="#" class="hw-btn">Submit property</a> {% endcomment %}
                     </div>
                 </div>
             </div>
-            <div class="canvas-open">
+            <div class="canvas-open mr-3">
                 <span class="icon_menu"></span>
             </div>
         </div>
@@ -78,22 +71,9 @@
                                 <ul class="dropdown">
                                     {% for product_category in product_categories %}
                                     <li>
-                                        {% comment %} <a href="{% url 'product:product_index' product_category.slug %}">{{ product_category.name }}</a> {% endcomment %}
-                                        <a href="{% url 'product:product_index'%}">{{ product_category.name }}</a>
+                                        <a href="{% url 'product:product_index' %}?category={{ product_category.id }}">{{ product_category.name }}</a>
                                     </li>
                                     {% endfor %}
-                                    {% comment %} <li>
-                                        <a href="{% url 'product:product_index' %}">Product List</a>
-                                    </li>
-                                    <li> {% endcomment %}
-                                        {% comment %} <a href="{% url 'product:product_detail' %}">Product Detail</a> {% endcomment %}
-                                    {% comment %} </li>
-                                    <li>
-                                        <a href="./property-comparison.html">Property Comperison</a>
-                                    </li>
-                                    <li>
-                                        <a href="./property-submit.html">Property Submit</a>
-                                    </li> {% endcomment %}
                                 </ul>
                             </li>
                             <li class="{% if url_name == 'about_us_index' %}active{% endif %}">
@@ -117,6 +97,6 @@
 
 {% endwith %}
 
-{% if request.resolver_match and request.resolver_match.url_name != 'home_index' and request.resolver_match.url_name != 'blog_detail' %}
+{% comment %} {% if request.resolver_match and request.resolver_match.url_name != 'home_index' and request.resolver_match.url_name != 'blog_detail' %}
     {% include 'components/breadcump.html' %}
-{% endif %}
+{% endif %} {% endcomment %}

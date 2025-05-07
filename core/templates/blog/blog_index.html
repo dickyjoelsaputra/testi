@@ -1,5 +1,11 @@
 {% extends "layouts/main.html" %}
 {% load static %}
+
+{% block title %}{{company_profile_context.company_alias}} | Blog{% endblock %}
+
+{% block meta_desc %}{{global_seo_context.blog_meta_desc}}{% endblock %}
+{% block meta_key %}{{global_seo_context.blog_meta_key}}{% endblock %}
+
 {% block content %}
     <!-- Blog Section Begin -->
     <section class="blog-section spad">
@@ -10,7 +16,7 @@
                         {% for blog in page_obj %}
                             <div class="blog-item">
                                 <div class="bi-pic">
-                                    <img src="{{ blog.image_330x220_processed.url }}" alt="{{ blog.title }}">
+                                    <img class="can-hover" src="{{ blog.image_330x220_processed.url }}" alt="{{ blog.title }}">
                                 </div>
                                 <div class="bi-text">
                                     <h4>
@@ -30,13 +36,6 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {% comment %} <div class="blog-pagination property-pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#" class="icon"><span class="arrow_right"></span></a>
-                        <a href="#" class="icon"><span class="arrow_left"></span></a>
-                    </div> {% endcomment %}
                     <div class="blog-pagination property-pagination">
                         {% if page_obj.has_previous %}
                             <a href="{% if current_category %}{% url 'blog:blog_by_category' category_slug=current_category %}{% else %}{% url 'blog:blog_index' %}{% endif %}?page={{ page_obj.previous_page_number }}"

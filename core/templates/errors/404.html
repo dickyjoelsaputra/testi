@@ -1,0 +1,16 @@
+{% extends 'layouts/main.html' %}
+{% load static %}
+
+{% block title %}{{company_profile_context.company_alias}}{% endblock %}
+
+{% block content %}
+<div class="mb-5"></div>
+
+<div class="container text-center mb-5">
+    <h3 class="mb-5">Maaf halaman tidak ditemukan</h3>
+    <h3 class="mb-5">Silakan coba lagi nanti.</h3>
+    <h3 class="mb-5">Jika masalah berlanjut, hubungi dukungan kami.</h3>
+
+    <a href="{% url 'home:home_index' %}" class="hw-button2 mb-5">Ke Halaman Beranda</a>
+</div>
+{% endblock %}

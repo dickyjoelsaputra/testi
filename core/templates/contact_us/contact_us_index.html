@@ -1,45 +1,63 @@
-{% extends "layouts/main.html" %}
+{% extends 'layouts/main.html' %}
 {% load static %}
-{% block content %}
-    <!-- Contact Form Section Begin -->
-    <section class="contact-form-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="cf-content">
-                        <div class="cc-title">
-                            <h4>Formulir Kontak</h4>
-                            <h5>
-                                Kirimkan pesan kepada kami untuk penawaran harga atau pertanyaan apa pun.
-                                <br />
-                                Anda dapat menggunakan formulir kontak di bawah ini atau mengirim email kepada kami di {{ social_context.email }}
-                            </h5>
-                        </div>
-                        {% if messages %}
-                            <div class="alert alert-{% if messages.tags %}{{ messages.tags }}{% else %}info{% endif %}">
-                                {% for message in messages %}
-                                    <p>{{ message }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
 
-                        <form method="post" class="cc-form">
-                            {% csrf_token %}
-                            <div class="group-input">
-                                {{ form.name }}
-                                {{ form.email }}
-                                {{ form.phone }}
-                            </div>
-                            {{ form.message }}
-                            <div class="captcha-container">
-                                {{ form.captcha }}
-                            </div>
-                            <button type="submit" class="site-btn">Kirim</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+{% block title %}{{company_profile_context.company_alias}} | Kontak{% endblock %}
+{% block meta_desc %}{{global_seo_context.kontak_meta_desc}}{% endblock %}
+{% block meta_key %}{{global_seo_context.kontak_meta_key}}{% endblock %}
+
+{% block content %}
+  <!-- Contact Form Section Begin -->
+  <section class="team-section spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+            {% include 'components/contact_form.html' %}
         </div>
-    </section>
-    <!-- Contact Form Section End -->
+      </div>
+    </div>
+  </section>
+  <!-- Contact Form Section End -->
+
+  <!-- FAQ Section Begin -->
+  <section class="about-section spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title">
+            <h4>Pertanyaan yang Sering Diajukan</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 mx-auto">
+          <div id="faqAccordion" class="accordion shadow">
+            {% for faq in faqs %}
+            <div class="card faq-card">
+              <div id="heading{{ forloop.counter }}" class="card-header bg-white shadow-sm border-0">
+                <h6 class="mb-0 font-weight-bold">
+                  <a href="#" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" 
+                     aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" 
+                     aria-controls="collapse{{ forloop.counter }}" 
+                     class="d-block position-relative text-dark text-uppercase collapsible-link py-2">
+                    {{ faq.question }}
+                  </a>
+                </h6>
+              </div>
+              <div id="collapse{{ forloop.counter }}" 
+                   aria-labelledby="heading{{ forloop.counter }}" 
+                   data-parent="#faqAccordion" 
+                   class="collapse">
+                <div class="card-body p-5">
+                  <p class="font-weight-light m-0">{{ faq.answer|linebreaks }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FAQ Section End -->
 {% endblock %}

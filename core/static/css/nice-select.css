@@ -117,7 +117,7 @@
     list-style: none;
     min-height: 40px;
     outline: none;
-    padding-left: 18px;
+    /* padding-left: 18px; */
     padding-right: 29px;
     text-align: left;
     -webkit-transition: all 0.2s;

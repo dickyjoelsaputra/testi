@@ -86,6 +86,8 @@ TEMPLATES = [
                 'global_setting.context_processors.social_context',
                 'global_setting.context_processors.global_seo_context',
                 'global_setting.context_processors.breadcrump_context',
+                'global_setting.context_processors.footer_text_context',
+                'global_setting.context_processors.company_profile_context',
                 
                 'product.context_processors.product_categories_context',
             ],
@@ -167,6 +169,7 @@ AWS_S3_FILE_OVERWRITE=False
 
 
 ENVIRONMENT = os.getenv("DJANGO_ENV")
+print(f"ENVIRONMENT: {ENVIRONMENT}")
 
 if ENVIRONMENT == "development":
     # Static lokal
@@ -196,6 +199,11 @@ if ENVIRONMENT == "development":
     
     DEBUG = True
 else:
+    
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "core", "static"),
+    ]
+        
     # Static dan media semua ke MinIO
     STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/"
     MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
@@ -276,3 +284,12 @@ CAPTCHA_TIMEOUT = 5  # minutes
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'dickyjoelsaputra@gmail.com')
+
+
+WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
+# WAGTAILEMBEDS_FINDERS = [
+#     {
+#         'class': 'wagtail.embeds.finders.oembed'
+#     }
+# ]

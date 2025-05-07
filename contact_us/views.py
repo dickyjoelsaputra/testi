@@ -9,6 +9,7 @@ from captcha.fields import CaptchaField
 from django import forms
 import geoip2.database
 import user_agents
+from contact_us.models import FAQ
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Nama'}))
@@ -18,6 +19,14 @@ class ContactForm(forms.Form):
     captcha = CaptchaField()
 
 def contact_us_index(request):
+    faqs = FAQ.objects.all().order_by('order')
+    form = ContactForm()
+    contextRes = {
+        'faqs': faqs,
+        'form': form,
+    }
+
+
     if request.method == 'POST':
         form = ContactForm(request.POST)
         
@@ -62,35 +71,11 @@ def contact_us_index(request):
                 last_submit=timezone.now()
             )
 
-            # Send email notification with additional info
-            # email_subject = f'New Contact Form Submission from {name}'
-            # email_message = f'''
-            # Name: {name}
-            # Email: {email}
-            # Phone: {phone}
-            # Message: {message}
-            
-            # Additional Info:
-            # IP Address: {ip}
-            # Location: {location}
-            # Device: {user_agent.device.family}
-            # Browser: {user_agent.browser.family} {user_agent.browser.version_string}
-            # OS: {user_agent.os.family} {user_agent.os.version_string}
-            # '''
-            
-            # send_mail(
-            #     email_subject,
-            #     email_message,
-            #     settings.DEFAULT_FROM_EMAIL,
-            #     ['dickyjoelsaputra@gmail.com'],
-            #     fail_silently=False,
-            # )
-
             messages.success(request, 'Pesan telah terkirim')
             return redirect('contact_us:contact_us_index')
         else:
             messages.error(request, 'Terdapat kesalahan dalam form, silakan coba lagi')
             return redirect('contact_us:contact_us_index')
     
-    form = ContactForm()
-    return render(request, 'contact_us/contact_us_index.html', {'form': form})
+
+    return render(request, 'contact_us/contact_us_index.html',context=contextRes)

@@ -15,12 +15,14 @@ class Social(BaseGenericSetting):
     telepon = models.CharField(max_length=200, blank=True, null=True)
     whatsapp = models.CharField(max_length=200, blank=True, null=True)
     email = models.CharField(max_length=200, blank=True, null=True)
+    embed_map = models.TextField(blank=True, null=True)
 
     panels = [
         FieldPanel("alamat"),
         FieldPanel("telepon"),
         FieldPanel("whatsapp"),
         FieldPanel("email"),
+        FieldPanel("embed_map"),
     ]
     
 
@@ -71,3 +73,23 @@ class GlobalSEO(BaseGenericSetting):
     
     menu_label = "Global SEO"
     
+@register_setting
+class FooterText(BaseGenericSetting):
+    footer_text = models.TextField(blank=True, null=True)
+
+    panels = [
+        FieldPanel("footer_text"),
+    ]
+    
+    menu_label = "Footer Text"
+
+@register_setting
+class CompanyProfile(BaseGenericSetting):
+    company_alias = models.CharField(max_length=200, blank=True, null=True)
+    company_name = models.CharField(max_length=200, blank=True, null=True)
+    company_logo_69x42 = models.ImageField(upload_to='global_setting', blank=True, null=True)
+    company_logo_69x42_processed = ImageSpecField(source='company_logo_69x42', processors=[ResizeToFill(69, 42)], format='webP', options={'quality': 90})
+    company_logo_138x84 = models.ImageField(upload_to='global_setting', blank=True, null=True)
+    company_logo_138x84_processed = ImageSpecField(source='company_logo_138x84', processors=[ResizeToFill(138, 84)], format='webP', options={'quality': 90})
+    favicon_16x16 = models.ImageField(upload_to='global_setting', blank=True, null=True)
+    favicon_16x16_processed = ImageSpecField(source='favicon_16x16', processors=[ResizeToFill(16, 16)], format='webP', options={'quality': 90})

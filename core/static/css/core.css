@@ -56,3 +56,141 @@
     color: #0c5460;
     border: 1px solid #bee5eb;
 }
+
+
+
+
+/* ================================================ */
+
+.collapsible-link::before {
+    content: '';
+    width: 14px;
+    height: 2px;
+    background: #333;
+    position: absolute;
+    top: calc(50% - 1px);
+    right: 1rem;
+    display: block;
+    transition: all 0.3s;
+}
+
+/* Vertical line */
+.collapsible-link::after {
+    content: '';
+    width: 2px;
+    height: 14px;
+    background: #333;
+    position: absolute;
+    top: calc(50% - 7px);
+    right: calc(1rem + 6px);
+    display: block;
+    transition: all 0.3s;
+}
+
+.collapsible-link[aria-expanded='true']::after {
+    transform: rotate(90deg) translateX(-1px);
+}
+
+.collapsible-link[aria-expanded='true']::before {
+    transform: rotate(180deg);
+}
+
+/* nigga */
+
+/* 
+.blog-details-content h2 {
+    font-size: 1px;
+} */
+
+/* .responsive-object {
+    position: relative;
+}
+
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} */
+
+.responsive-object {
+    position: relative;
+}
+
+.responsive-object iframe,
+.responsive-object object {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+/* .bc-tags {
+    margin-bottom: 20px;
+} */
+
+.bc-tags a {
+    font-size: 15px;
+    color: #666666;
+    margin-top: 2px;
+    display: inline-block;
+    border: 1px solid #e1e1e1;
+    padding: 8px 15px;
+    margin-right: 6px;
+    border-color: #00C89E;
+    font-weight: 500;
+    /* margin-bottom: 10px; */
+}
+
+.hw-button2 {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: #00C89E;
+    padding: 14px 30px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+
+.can-hover {
+    transition: transform 0.3s ease;
+    /* agar animasinya halus */
+}
+
+.can-hover:hover {
+    transform: scale(1.1);
+    /* membesar 10% */
+}
+
+.sticky-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    background: white;
+}
+
+/* .page-content {
+    padding-top: 86px;
+} */
+
+.breadcrumb-section.spad.set-bg{
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    background-color: rgb(255, 255, 255);
+}
