@@ -1,0 +1,9 @@
+{% extends "wagtailadmin/login.html" %}
+
+{% block branding_login %}Sign in to {{ company_profile_context.company_alias }} Admin{% endblock %}
+
+{% block branding_logo %}
+<div class="login-logo">
+    <img src="{{ company_profile_context.company_logo_138x84.url }}" role="img" alt="Custom Project"/>
+</div>
+{% endblock %}

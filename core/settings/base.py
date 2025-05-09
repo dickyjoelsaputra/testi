@@ -111,7 +111,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT' , '5432'),
         'CONN_MAX_AGE': 600,  # Tambahkan parameter connection
         'OPTIONS': {
-            'connect_timeout': 5,  # Timeout 5 detik
+            'sslmode': 'disable',
         }
     }
 }

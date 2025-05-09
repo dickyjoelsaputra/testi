@@ -1,0 +1,10 @@
+{% extends "wagtailadmin/admin_base.html" %}
+
+{% block branding_favicon %}
+    <link rel="shortcut icon" href="{{ company_profile_context.favicon_16x16.url }}" />
+{% endblock %}
+
+
+{% block branding_title %}
+    {{ company_profile_context.company_alias }} Admin
+{% endblock %}
