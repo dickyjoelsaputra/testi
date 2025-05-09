@@ -158,6 +158,13 @@ ol {
   background-color: rgb(255, 255, 255);
 }
 
+.set-bg-detail {
+  background-repeat: no-repeat;
+  /* background-size: contain; */
+  background-position: center;
+  background-color: rgb(255, 255, 255);
+}
+
 .spad {
   padding-top: 30px;
   padding-bottom: 30px;
